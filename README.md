@@ -34,7 +34,7 @@ or with yarn
 
 or you can add the npm package to your package.json
 ``` javascript
- "angular-auth-oidc-client": "1.3.8"
+ "angular-auth-oidc-client": "1.3.11"
 ```
  
 and type 
@@ -45,20 +45,36 @@ and type
 
 ## Using in the angular application
 
-Import the module and services in your module. Set the AuthConfiguration properties to match the server configuration. At present only the id_token token flow is supported.
+Import the module and services in your module. 
 
-```typescript
+The OidcSecurityService has a dependency on the HttpModule which needs to be imported. This is required, even if you are using the new HttpClientModule module. The angular-auth-oidc-client module supports all versions of Angular 4 onwards.
+
+``` javascript
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 
 @NgModule({
     imports: [
         ...
+        HttpModule,
         AuthModule.forRoot()
     ],
-    ...
+    declarations: [
+        ...
+    ],
+    providers: [
+        OidcSecurityService,
+        ...
+    ],
+    bootstrap:    [AppComponent],
 })
+```
+
+Set the AuthConfiguration properties to match the server configuration. At present only the id_token token flow is supported.
+
+```typescript
 
 export class AppModule {
     constructor(public oidcSecurityService: OidcSecurityService) {
@@ -191,6 +207,8 @@ See also `oidc.security.storage.ts` for an example.
 https://github.com/damienbod/AspNet5IdentityServerAngularImplicitFlow/tree/npm-lib-test/src/AngularClient
 
 https://github.com/damienbod/angular-auth-oidc-sample-google-openid
+
+https://github.com/HWouters/ad-b2c-oidc-angular
 
 ## Notes: 
 
